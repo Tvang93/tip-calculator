@@ -8,7 +8,7 @@ function App() {
       <div>
         <img src="/images/logo.svg" alt="logo" />
       </div>
-      <div>
+      <div className='bg-white rounded-2xl p-4'>
         <CalculatorComponent />
       </div>
     </div>
