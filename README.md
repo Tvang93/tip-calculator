@@ -10,7 +10,6 @@ Tip Calculator
 ## Brief Description
 Description:
     Create a tip Calculator from the FrontEndMentor starter
-
 Requirements:
     React
     Tailwind CSS
