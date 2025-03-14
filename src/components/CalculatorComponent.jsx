@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import TipButtonComponent from "./TipButtonComponent";
+import "../App.css";
 
 const CalculatorComponent = () => {
   const [bill, setBill] = useState(0);
@@ -7,115 +9,126 @@ const CalculatorComponent = () => {
   const [tipPercent, setTipPercent] = useState(0);
   const [tip, setTip] = useState(0);
 
-  useEffect(()=>{
-    setTip((tipPercent/100).toFixed(2));
-  }, [tipPercent])
+  useEffect(() => {
+    setTip((tipPercent / 100).toFixed(2));
+  }, [tipPercent]);
 
-  useEffect(()=>{
-    setTip((customPercent/100).toFixed(2))
-  }, [customPercent])
+  useEffect(() => {
+    setTip((customPercent / 100).toFixed(2));
+  }, [customPercent]);
+
+  const tipArr = [5, 10, 15, 20, 25];
 
   return (
     <>
-      <form className="grid lg:grid-cols-2 gap-4">
-        <div className="text-Darkgrayishcyan">
-          <div className="mb-4">
-            <h2 className="text-start mb-2">Bill</h2>
-            <input
-              id="billField"
-              type="number"
-              className="w-[100%] bg-Verylightgrayishcyan bg-[url:(../images/icon-dollar.svg)] py-2 px-4 text-end rounded-md"
-              placeholder="0"
-              src="../images/icon-dollar.svg"
-              onChange={(e)=>{setBill(Number(e.target.value))}}
-            />
-          </div>
-          <div className="mb-4">
-            <h2 className="text-start mb-2">Select Tip %</h2>
-            <div className="grid grid-cols-3 gap-3">
-            <button 
-              type="button"
-              className="px-6 py-2 bg-Verydarkcyan rounded-md text-White"
-              onClick={()=>{setTipPercent(5)}}
-              >
-                5%
-              </button>
-              <button 
-              type="button"
-              className="px-6 py-2 bg-Verydarkcyan rounded-md text-White"
-              onClick={()=>{setTipPercent(10)}}
-              >
-                10%
-              </button>
-              <button 
-              type="button"
-              className="px-6 py-2 bg-Verydarkcyan rounded-md text-White"
-              onClick={()=>{setTipPercent(15)}}
-              >
-                15%
-              </button>
-              <button 
-              type="button"
-              className="px-6 py-2 bg-Verydarkcyan rounded-md text-White"
-              onClick={()=>{setTipPercent(20)}}
-              >
-                20%
-              </button>
-              <button 
-              type="button"
-              className="px-6 py-2 bg-Verydarkcyan rounded-md text-White"
-              onClick={()=>{setTipPercent(25)}}
-              >
-                25%
-              </button>
+      <form className="grid lg:grid-cols-2 gap-4 font-[SpaceMono] font-bold">
+        <div className="text-Darkgrayishcyan p-2 lg:p-4">
+          <div className="mb-8 text-start">
+            <label htmlFor="billField" className="">
+              Bill
+            </label>
+            <div className="relative flex mt-2">
+              <img
+                className="absolute self-center pl-4"
+                src="./images/icon-dollar.svg"
+                alt="dollar icon"
+              />
               <input
-                id="customTipField"
-                type="text"
-                className="bg-Verylightgrayishcyan px-6 text-end grow-0"
-                placeholder="Custom"
-                onChange={(e)=>{setCustomPercent(e.target.value)}}
+                id="billField"
+                type="number"
+                className={`w-[100%] bg-Verylightgrayishcyan bg-[url:(../images/icon-dollar.svg)] py-2 px-4 text-end rounded-md text-2xl hover:cursor-pointer focus:outline-Strongcyan`}
+                placeholder="0"
+                src="../images/icon-dollar.svg"
+                onChange={(e) => setBill(Number(e.target.value))}
               />
             </div>
           </div>
-          <div>
-            <div className="flex justify-between">
-              <h2 className="text-start mb-2">Number of People</h2>
-              <h2 className={`${numofPeople == 0 ? 'block' : 'hidden'}`}>Can't be zero</h2>
+          <div className="mb-8">
+            <h2 className="text-start mb-2">Select Tip %</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+              {tipArr.map((num, idx) => (
+                <TipButtonComponent
+                  key={idx}
+                  num={num}
+                  onClick={() => setTipPercent(num)}
+                />
+              ))}
+              <input
+                id="customTipField"
+                type="text"
+                className="bg-Verylightgrayishcyan text-center focus:pr-4 focus:text-end focus:outline-Strongcyan hover:cursor-pointer rounded-md text-2xl lg:w-[120px]"
+                placeholder="Custom"
+                onChange={(e) => setCustomPercent(e.target.value)}
+              />
             </div>
-            <input
-              id="numberOfPeopleField"
-              type="number"
-              className="w-[100%] bg-Verylightgrayishcyan py-2 px-4 text-end rounded-md"
-              placeholder="0"
-              onChange={(e)=>{setNumOfPeople(Number(e.target.value))}}
-            />
+          </div>
+          <div className="mb-4 lg:mb-0">
+            <label
+              htmlFor="numberOfPeopleField"
+              className="flex justify-between"
+            >
+              <h2 className="text-start mb-2">Number of People</h2>
+              <h2
+                className={`${
+                  numofPeople == 0 ? "block" : "hidden"
+                } text-red-500`}
+              >
+                Can't be zero
+              </h2>
+            </label>
+            <div className="relative flex">
+              <img
+                className="absolute self-center pl-4"
+                src="./images/icon-person.svg"
+                alt="person icon"
+              />
+              <input
+                id="numberOfPeopleField"
+                type="number"
+                className={`w-[100%] bg-Verylightgrayishcyan py-2 px-4 text-end rounded-md text-2xl hover:cursor-pointer ${
+                  numofPeople == 0
+                    ? `focus:outline-red-500`
+                    : `focus:outline-Strongcyan`
+                }`}
+                placeholder="0"
+                onChange={(e) => {
+                  setNumOfPeople(Number(e.target.value));
+                }}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="bg-Verydarkcyan rounded-lg flex flex-col justify-between p-5">
+        <div className="bg-Verydarkcyan rounded-lg flex flex-col justify-between p-6 lg:p-10">
           <div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center my-4">
               <div className="">
                 <h2 className="text-start text-White">Tip Amount</h2>
                 <h3 className="text-start text-Grayishcyan">/ person</h3>
               </div>
-              <h1 className="text-4xl text-green-500">${(bill*tip).toFixed(2)}</h1>
+              <h1 className="text-4xl text-Strongcyan">
+                ${((bill * tip) / numofPeople).toFixed(2)}
+              </h1>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-8">
               <div>
                 <h2 className="text-start text-White">Total</h2>
                 <h3 className="text-start text-Grayishcyan">/ person</h3>
               </div>
-              <h1 className="text-4xl text-green-500">${((bill*(1+Number(tip)))/numofPeople).toFixed(2)}</h1>
+              <h1 className="text-4xl text-Strongcyan">
+                ${((bill * (1 + Number(tip))) / numofPeople).toFixed(2)}
+              </h1>
             </div>
           </div>
           <div className="">
-            <button 
-            type="reset"
-            className="w-[100%] rounded-md bg-green-500 text-Verydarkcyan"
-            onClick={()=>{setBill(0), setCustomPercent(0), setNumOfPeople(1)}}
+            <button
+              type="reset"
+              className="w-[100%] rounded-md bg-Strongcyan text-Verydarkcyan hover:brightness-125 focus:brightness-75 h-12 mt-8 text-xl font-black"
+              onClick={() => {
+                setBill(0), setCustomPercent(0), setNumOfPeople(1);
+              }}
             >
-              reset
+              RESET
             </button>
           </div>
         </div>
