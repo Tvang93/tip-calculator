@@ -5,16 +5,17 @@ import "../App.css";
 const CalculatorComponent = () => {
   const [bill, setBill] = useState(0);
   const [numofPeople, setNumOfPeople] = useState(1);
-  const [customPercent, setCustomPercent] = useState(0);
+  const [customPercent, setCustomPercent] = useState('');
   const [tipPercent, setTipPercent] = useState(0);
   const [tip, setTip] = useState(0);
+  const [isReset, setIsReset] = useState(true)
 
   useEffect(() => {
     setTip((tipPercent / 100).toFixed(2));
   }, [tipPercent]);
 
   useEffect(() => {
-    setTip((customPercent / 100).toFixed(2));
+    setTipPercent((Number(customPercent)))
   }, [customPercent]);
 
   const tipArr = [5, 10, 15, 20, 25];
@@ -39,7 +40,7 @@ const CalculatorComponent = () => {
                 className={`w-[100%] bg-Verylightgrayishcyan bg-[url:(../images/icon-dollar.svg)] py-2 px-4 text-end rounded-md text-2xl hover:cursor-pointer focus:outline-Strongcyan`}
                 placeholder="0"
                 src="../images/icon-dollar.svg"
-                onChange={(e) => setBill(Number(e.target.value))}
+                onChange={(e) => {setBill(Number(e.target.value)), setIsReset(false) }}
               />
             </div>
           </div>
@@ -48,9 +49,15 @@ const CalculatorComponent = () => {
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
               {tipArr.map((num, idx) => (
                 <TipButtonComponent
+                  customPercent={customPercent}
+                  tipPercent={tipPercent}
                   key={idx}
                   num={num}
-                  onClick={() => setTipPercent(num)}
+                  onClick={() => {
+                    setTipPercent(num),
+                    setCustomPercent(''),
+                    setIsReset(false)
+                  }}
                 />
               ))}
               <input
@@ -58,7 +65,8 @@ const CalculatorComponent = () => {
                 type="text"
                 className="bg-Verylightgrayishcyan text-center focus:pr-4 focus:text-end focus:outline-Strongcyan hover:cursor-pointer rounded-md text-2xl lg:w-[120px]"
                 placeholder="Custom"
-                onChange={(e) => setCustomPercent(e.target.value)}
+                value={customPercent}
+                onChange={(e) => {setCustomPercent(e.target.value), setIsReset(false)}}
               />
             </div>
           </div>
@@ -92,7 +100,8 @@ const CalculatorComponent = () => {
                 }`}
                 placeholder="0"
                 onChange={(e) => {
-                  setNumOfPeople(Number(e.target.value));
+                  setNumOfPeople(Number(e.target.value)),
+                  setIsReset(false)
                 }}
               />
             </div>
@@ -120,12 +129,14 @@ const CalculatorComponent = () => {
               </h1>
             </div>
           </div>
-          <div className="">
+          <div>
             <button
               type="reset"
-              className="w-[100%] rounded-md bg-Strongcyan text-Verydarkcyan hover:brightness-125 focus:brightness-75 h-12 mt-8 text-xl font-black"
+              className={`w-[100%] rounded-md bg-Strongcyan text-Verydarkcyan h-12 mt-8 text-xl font-black  ${isReset ? `brightness-50 hover:cursor-default` : `hover:brightness-125`}`}
               onClick={() => {
-                setBill(0), setCustomPercent(0), setNumOfPeople(1);
+                if(!isReset){
+                  setBill(0), setCustomPercent(0), setNumOfPeople(1), setTipPercent(0), setIsReset(true) ;
+                }
               }}
             >
               RESET

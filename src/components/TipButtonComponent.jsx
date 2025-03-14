@@ -1,11 +1,13 @@
 import React from "react";
 
 const TipButtonComponent = (props) => {
+  const isActive = props.tipPercent == props.num && props.customPercent != props.num
+
   return (
     <>
       <button
-        type="button"
-        className="px-6 py-2 bg-Verydarkcyan rounded-md text-White hover:cursor-pointer hover:bg-Strongcyan hover:text-Verydarkcyan hover:brightness-125 focus:bg-Strongcyan focus:text-Verydarkcyan text-2xl"
+        type="reset"
+        className={`px-6 py-2  hover:cursor-pointer rounded-md hover:bg-Strongcyan hover:text-Verydarkcyan hover:brightness-125 text-2xl ${!isActive ? `bg-Verydarkcyan  text-White` : `bg-Strongcyan text-Verydarkcyan`}`}
         onClick={props.onClick}
       >
         {props.num}%
